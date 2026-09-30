@@ -110,6 +110,17 @@ Attack Lab ground truth appears as dotted `affects` edges from an `AttackScenari
 - **New detector:** return `Finding`s and `CheckRecord`s from an analyzer, and add a correlation rule if it produces linkable tags.
 - **New scenario:** add a function and a `Scenario(...)` entry in `demo/scenarios.py`, with its expected finding categories.
 
-## 8. Offline enforcement
+## 8. Investigation presentation (second pass)
+- **Simulated-event tagging:** while an Attack Lab scenario runs, `AuditLog.simulated` is true, and every event written then carries `details.simulated = true`. The tag is inside the hashed record, so it cannot be removed silently.
+- **Case timeline:** events come from the audit chain only, with real timestamps. `cases.classify_event` labels each one as *observed* (recorded system or analyst event), *derived* (finding, correlation, case or pillar result) or *simulated*. After the case opens, events that concern it (verification of its records, dispositions, reports) are added to its timeline.
+- **Know / suspect / don't know / does not prove:** the case view builds these four lists only from backend data:
+  - KNOW: REAL findings plus run-level verification results (audit chain, record verification, digest match, manifest diff).
+  - SUSPECT: HEURISTIC findings, each shown with its observed measurement.
+  - DON'T KNOW: the backend's own `unknowns`.
+  - DOES NOT PROVE: per-category statements about the detection method's limits.
+- **Navigation:** the drawers walk Case → Finding → Evidence → Asset (and back) using the stored graph edges (`/api/graph`); no second data structure is kept.
+- **Provenance self-test** (`crypto/selftest.py`): each mutation is applied to freshly signed records in a temporary database, then verified with the unchanged production verifier.
+
+## 9. Offline enforcement
 
 `netguard.install()` wraps `socket.connect`, `connect_ex` and `create_connection`, and refuses any non-loopback address. Attempts are counted and can be shown with **Test egress block** (logged to the audit chain). The UI is served with `Content-Security-Policy: default-src 'self'`, and every asset (including Cytoscape.js) is vendored. The limitation is scope: the guard covers this process only, so host-level isolation is still expected.

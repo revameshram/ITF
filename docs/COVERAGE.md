@@ -12,7 +12,8 @@ This is the same information as the in-app **Coverage / Limitations** page, whic
 - Evidence graph from real relationships; explicit correlation rules; cases; documented risk formula; dispositions logged to the audit chain.
 - Hash-chained audit log with a signed head. Signed JSON and HTML assurance reports.
 - Offline guard (in-process socket blocker + CSP) and an egress self-test.
-- Test suite: 33 tests (`test.bat`).
+- Provenance self-test (Attack Lab), run on isolated copies with expected vs actual results: input, output, model-digest and config modification; reorder; delete; re-sign with an untrusted key; replay; audit edit and delete.
+- Test suite: 43 tests (`test.bat`).
 
 ## Controlled demonstration (real code, heuristic conclusion)
 These run real computations, but the conclusion is uncalibrated and is labelled HEURISTIC with stated limitations:
@@ -28,7 +29,22 @@ These run real computations, but the conclusion is uncalibrated and is labelled 
 - Three demo models (clean, backdoored, substitute), trained offline in NumPy and exported to ONNX.
 - The Attack Lab payloads and the "retraining" step, which deploys a model pre-trained on exactly the injected data.
 
-## Future enhancements (not implemented)
+## Status by area (also shown on the Coverage page)
+| Area | Status |
+|---|---|
+| Dataset integrity | IMPLEMENTED (manifest, duplicates and aggregation are REAL; label, OOD and trigger detection are HEURISTIC) |
+| Model integrity | IMPLEMENTED (digest, registry and fingerprint are REAL; statistics need white-box access) |
+| Inference provenance | IMPLEMENTED |
+| Audit trail | IMPLEMENTED |
+| Distribution shift | PROTOTYPE / HEURISTIC (the statistics are real; the attribution is heuristic) |
+| Controlled trigger testing | PROTOTYPE / HEURISTIC (not general backdoor detection) |
+| General backdoor detection | NOT SUPPORTED |
+| Invisible / blended trigger detection | NOT SUPPORTED |
+| YOLO support | LIMITED (dataset labels are parsed; detection-model outputs are not decoded) |
+| TorchScript models | OPTIONAL (UNAVAILABLE without PyTorch) |
+| Calibration | SYNTHETIC ONLY (not real-world accuracy) |
+
+## Future enhancements (not supported yet)
 - General trigger reverse-engineering (Neural Cleanse, ABS), plus detection of clean-label, blended and invisible triggers.
 - Learned embeddings (for example a frozen CNN) to replace hand-crafted features on real imagery, with re-calibration.
 - Detection-model output decoders (YOLO heads) so object-detector outputs can be fingerprinted.

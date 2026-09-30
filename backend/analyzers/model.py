@@ -269,8 +269,9 @@ class ModelAnalyzer:
                      f"changes the prediction to '{best['target']}' for {best['flip_rate']:.0%} of {best['n']} "
                      f"reference images; a neutral control patch at the same spot flips only "
                      f"{best['control_flip_rate']:.0%}.",
-                why="A small input patch forcing one specific output class, while a neutral patch does not, is the "
-                    "behavioural signature of a backdoor. Further validation required.",
+                why="A small input patch forcing one specific output class, while a neutral patch does not, is "
+                    "consistent with backdoor-like behaviour for THIS pattern. It is not general backdoor detection "
+                    "and does not establish how the behaviour arose. Further validation required.",
                 severity="HIGH" if best["flip_rate"] >= 0.75 else "MEDIUM",
                 confidence=round(float(min(0.9, best["flip_rate"] - best["control_flip_rate"])), 2),
                 confidence_basis="Uncalibrated: difference between trigger and control flip rates on the reference "

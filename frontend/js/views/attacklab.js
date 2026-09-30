@@ -18,6 +18,11 @@ export async function render(el, _p, ctx) {
     ${pending.length ? `<div class="note demo" style="margin-bottom:14px"><b>${pending.length} scenario(s) injected since the last assurance check:</b> ${pending.map((p) => esc(p.name)).join(", ")}.
       <button class="btn btn-sm btn-primary" id="run-now" style="margin-left:8px">Run assurance check now</button></div>` : ""}
     <div class="grid g3">${card(featured)}${rest.map(card).join("")}</div>
+    <div class="card section" id="selftest"><div class="card-h"><h2>Provenance &amp; audit-chain self-test</h2><span class="b b-real">REAL</span>
+      <span class="muted small">expected vs actual verification · isolated copies, the live log is never modified</span><span class="spacer"></span>
+      <button class="btn btn-primary" id="run-selftest">Run self-test</button></div>
+      <div class="muted small">For each test, five records are freshly signed with the real local key and exactly one thing is changed. The unchanged production verifier is then run on them.</div>
+      <div id="selftest-out" style="margin-top:10px"></div></div>
     ${run?.scenarios?.length ? `<div class="card section"><div class="card-h"><h2>Scorecard of the last assurance run</h2><span class="muted small">${esc(run.run_id)} · ground truth vs detections</span></div>
       <table class="tbl"><tr><th>Scenario</th><th>Expected finding</th><th>Detected</th></tr>
       ${dash.scorecard.flatMap((s) => s.expected.map((x, i) => `<tr><td>${i === 0 ? `<b>${esc(s.scenario)}</b>` : ""}</td><td class="mono">${esc(x.category)}</td><td>${x.detected ? badge("PASS") + " detected" : badge("FAIL") + " missed"}</td></tr>`)).join("")}</table>
@@ -27,6 +32,16 @@ export async function render(el, _p, ctx) {
     toast(`Injected: ${r.name}. Now run the assurance check.`, 4000);
     ctx.rerender();
   })));
+  el.querySelector("#run-selftest").onclick = (e) => withBusy(e.target, async () => {
+    const r = await post("/api/provenance/selftest");
+    el.querySelector("#selftest-out").innerHTML = `
+      <div class="note ${r.summary.all_as_expected ? "" : "fail"}" style="margin-bottom:10px">${r.summary.as_expected} of ${r.summary.tests} tests behaved as expected. ${esc(r.scope)}</div>
+      <div class="tbl-wrap"><table class="tbl"><tr><th>Test</th><th>Modification applied</th><th>Expected</th><th>Actual</th><th>Status</th><th>Checks that failed</th></tr>
+      ${r.results.map((t) => `<tr class="${["MISSED", "FALSE ALARM"].includes(t.status) ? "bad" : ""}"><td><b>${esc(t.test)}</b></td><td class="small">${esc(t.mutation)}</td>
+        <td>${badge(t.expected)}</td><td>${badge(t.actual)}</td><td><span class="b ${t.status === "DETECTED" || t.status === "OK" ? "b-pass" : "b-fail"}">${esc(t.status)}</span></td>
+        <td class="mono small">${esc(t.failed_checks.join(", ") || "—")}</td></tr>`).join("")}</table></div>
+      <div class="note warn" style="margin-top:10px"><b>What a detected change does NOT prove:</b> ${r.does_not_prove.map(esc).join("; ")}.</div>`;
+  });
   const rn = el.querySelector("#run-now");
   if (rn) rn.onclick = async () => { const r = await ctx.runAssurance(rn); if (r?.case_id) location.hash = `#/cases/${r.case_id}`; };
   el.querySelector("#reset").onclick = (e) => withBusy(e.target, async () => {

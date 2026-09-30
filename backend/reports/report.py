@@ -148,7 +148,7 @@ def render_html(r: dict) -> str:
 <table class="kv"><tr><th>Title</th><td>{_e(c['title'])}</td></tr>
 <tr><th>Status</th><td>{_badge(c['status'])}</td></tr>
 <tr><th>Severity</th><td>{_badge(c['severity'])}{' (escalated: multi-pillar chain)' if c.get('severity_escalated') else ''}</td></tr>
-<tr><th>Aggregated risk</th><td>{c['risk_score']:.2f} <span class="m">({_e(c['risk_method'])})</span></td></tr>
+<tr><th>Risk score (heuristic aggregate — not a probability)</th><td>{c['risk_score']:.2f} <span class="m">({_e(c['risk_method'])})</span></td></tr>
 <tr><th>Recommended disposition</th><td>{_badge(c['recommended_disposition'])} — {_e('; '.join(c['recommendation_reasons']))}</td></tr>
 <tr><th>Analyst disposition</th><td>{_e(c.get('disposition') or 'pending')}</td></tr></table>
 <h3>What happened</h3><p>{_e(c['summary']['what_happened'])}</p>

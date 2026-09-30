@@ -238,7 +238,11 @@ BY_ID = {s.id: s for s in SCENARIOS}
 def run_scenario(app, scenario_id: str, actor: str = "analyst") -> dict:
     sc = BY_ID[scenario_id]
     with app.lock:
-        res = sc.fn(app)
+        app.audit.simulated = True   # tag every audit event produced by the scenario as DEMO / SIMULATED
+        try:
+            res = sc.fn(app)
+        finally:
+            app.audit.simulated = False
         app._adapter_cache.clear()
         entry = {"id": sc.id, "name": sc.name, "at": utcnow(), "summary": res["summary"], "touched": res.get("touched", []),
                  "expected": sc.expected, "label": "DEMO / SIMULATED"}
@@ -247,7 +251,8 @@ def run_scenario(app, scenario_id: str, actor: str = "analyst") -> dict:
         app.store.kv_set("pending_scenarios", pend)
         # the audit_tampering scenario must not append *after* tampering in a way that hides it; appending is fine
         app.audit.append("attacklab.scenario_executed", actor, "assurance:core",
-                         {"scenario": sc.id, "name": sc.name, "summary": res["summary"], "label": "DEMO / SIMULATED"})
+                         {"scenario": sc.id, "name": sc.name, "summary": res["summary"], "label": "DEMO / SIMULATED",
+                          "simulated": True})
         return entry | {"details": {k: v for k, v in res.items() if k not in ("summary", "touched")}}
 
 

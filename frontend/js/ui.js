@@ -33,15 +33,59 @@ export function tone(s) {
   if (WARN.includes(s)) return "warn";
   if (FAIL.includes(s)) return "fail";
   if (s === "DEMO / SIMULATED") return "demo";
-  if (s === "NOT IMPLEMENTED" || s === "unavailable" || s === "skipped") return "neutral";
-  return "neutral";
+  if (["IMPLEMENTED"].includes(s)) return "pass";
+  if (["PROTOTYPE / HEURISTIC", "LIMITED"].includes(s)) return "warn";
+  if (["SYNTHETIC ONLY"].includes(s)) return "demo";
+  if (["OPTIONAL"].includes(s)) return "info";
+  return "neutral";   // NOT SUPPORTED, UNAVAILABLE, unavailable, skipped, …
 }
 export const badge = (s, extra = "") => `<span class="b b-${tone(s)} ${extra}">${esc(s)}</span>`;
 export const sev = (s) => `<span class="sev sev-${esc(s)}">${esc(s)}</span>`;
 export function method(ms) {
-  const cls = ms === "REAL" ? "b-real" : ms === "HEURISTIC" ? "b-heur" : ms === "NOT IMPLEMENTED" ? "b-ni" : "b-demo";
-  const tip = { REAL: "Deterministic / cryptographic / exact computation", HEURISTIC: "Real computation; the conclusion is a heuristic, uncalibrated score", "DEMO / SIMULATED": "Produced to demonstrate a capability", "NOT IMPLEMENTED": "Future enhancement" }[ms] || "";
+  const cls = ms === "REAL" ? "b-real" : ms === "HEURISTIC" ? "b-heur" : ["NOT SUPPORTED", "UNAVAILABLE"].includes(ms) ? "b-ni" : "b-demo";
+  const tip = { REAL: "Real implementation: deterministic / cryptographic / exact computation", HEURISTIC: "Real computation; the conclusion is a heuristic, uncalibrated score",
+    "DEMO / SIMULATED": "Produced to demonstrate a capability", "NOT SUPPORTED": "Not implemented in this prototype", UNAVAILABLE: "Needs access or a runtime that is not present" }[ms] || "";
   return `<span class="b ${cls}" title="${esc(tip)}">${esc(ms)}</span>`;
+}
+
+// How a finding's number should be read. Heuristic scores are NOT probabilities of compromise.
+export function scoreLabel(f) {
+  return f.method_status === "REAL" ? "verified (deterministic check)" : "prototype score (uncalibrated — not a probability)";
+}
+export const scoreShort = (f) => (f.method_status === "REAL" ? "verified" : "score");
+
+// Method-level statements of what a finding category can NOT establish. These describe the
+// detection method, not the data, so they hold for every finding of that category.
+const NOT_PROVE = {
+  "dataset.trigger_pattern": ["who introduced the samples", "malicious intent (a watermark or overlay gives the same signal)", "that a model trained on this data has a backdoor — that is tested separately"],
+  "dataset.systematic_mislabelling": ["that labels were flipped deliberately", "which label is correct — the reference vote can itself be wrong"],
+  "dataset.label_inconsistency": ["that labels were flipped deliberately", "which label is correct — the reference vote can itself be wrong"],
+  "dataset.isolated_label_review": ["that these samples are actually mislabelled"],
+  "dataset.duplicate_flooding": ["intent behind the duplicates", "that the duplicates changed the model"],
+  "dataset.duplicates": ["intent behind the duplicates"],
+  "dataset.ood_samples": ["that the samples are malicious", "that they harmed the model"],
+  "dataset.silent_modification": ["who modified the files or why"],
+  "model.substitution": ["that the deployed model is malicious or worse", "who replaced the file"],
+  "model.manifest_tampered": ["who altered the registry entry"],
+  "model.behaviour_change": ["that the change is malicious", "which behaviour is correct"],
+  "model.backdoor_behaviour": ["that the model contains a general backdoor", "that the behaviour was deliberately implanted", "that no other triggers exist (only the tested patterns were tried)"],
+  "inference.tampering": ["who modified the record", "why it was modified", "that the original output was correct"],
+  "inference.record_replacement": ["who replaced the record or why"],
+  "inference.replay": ["who inserted the duplicate or why"],
+  "inference.replay_blocked": ["who submitted the replay or why"],
+  "inference.unregistered_model": ["that the outputs are wrong — only that an unapproved model produced them"],
+  "inference.input_mismatch": ["who changed the image or why"],
+  "inference.reexecution_mismatch": ["which output is correct"],
+  "inference.chain_broken": ["whether a record was removed, inserted or replaced — without the other findings"],
+  "distribution.environmental_drift": ["that no manipulation occurred — attribution is heuristic", "that model outputs are wrong"],
+  "distribution.localized_manipulation": ["that the pattern is malicious (a legitimate overlay looks the same)", "that it caused wrong predictions"],
+  "distribution.unattributed_shift": ["the cause of the shift"],
+  "governance.audit_tampering": ["who edited the audit log", "what the original content was"],
+};
+export function notProve(f) {
+  const out = [...(NOT_PROVE[f.category] || ["attacker identity or intent"])];
+  if (f.method_status !== "REAL") out.push("a calibrated probability — the score is an uncalibrated prototype score");
+  return out;
 }
 export const pillarName = (p) => ({ dataset: "Training data", model: "Model", inference: "Inference", distribution: "Distribution", governance: "Governance" }[p] || p);
 
@@ -53,15 +97,31 @@ export function toast(msg, ms = 2600) {
   t._h = setTimeout(() => t.classList.remove("show"), ms);
 }
 
+// Investigation trail: every drawer opened from another drawer is appended, so the analyst can
+// walk Case → Finding → Evidence → Asset and step back along the same path.
+let trail = [];
+export function setTrailRoot(key, label, render) { trail = [{ key, label, render }]; }
+function visit(key, label, render) {
+  const i = trail.findIndex((t) => t.key === key);
+  if (i >= 0) trail = trail.slice(0, i + 1); else trail.push({ key, label, render });
+  return render();
+}
+function trailHtml() {
+  if (trail.length < 2) return "";
+  return `<nav class="trail" aria-label="Investigation path">${trail.map((t, i) => i < trail.length - 1
+    ? `<a href="#" data-trail="${i}">${esc(t.label)}</a>` : `<b>${esc(t.label)}</b>`).join('<span class="trail-sep">›</span>')}</nav>`;
+}
 export function openDrawer(html) {
   const d = $("#drawer");
-  $("#drawer-inner").innerHTML = `<button class="btn btn-sm drawer-close" data-close>Close ✕</button>` + html;
+  $("#drawer-inner").innerHTML = `<button class="btn btn-sm drawer-close" data-close>Close ✕</button>` + trailHtml() + html;
   d.classList.add("open");
   d.setAttribute("aria-hidden", "false");
   $("[data-close]", d).onclick = closeDrawer;
+  $$("[data-trail]", d).forEach((a) => (a.onclick = (e) => { e.preventDefault(); const t = trail[+a.dataset.trail]; visit(t.key, t.label, t.render); }));
+  $("#drawer-inner").scrollTop = 0;
   return $("#drawer-inner");
 }
-export function closeDrawer() { $("#drawer").classList.remove("open"); $("#drawer").setAttribute("aria-hidden", "true"); }
+export function closeDrawer() { trail = []; $("#drawer").classList.remove("open"); $("#drawer").setAttribute("aria-hidden", "true"); }
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
 
 export async function withBusy(btn, fn) {
@@ -101,29 +161,59 @@ export const icons = {
 export function findingItem(f) {
   return `<div class="fitem" data-finding="${esc(f.id)}">
     <div class="f-top">${sev(f.severity)}<span class="mono muted">${esc(f.id)}</span><span class="b b-neutral">${esc(pillarName(f.pillar))}</span>${method(f.method_status)}
-      <span class="spacer"></span><span class="muted tiny">conf ${Number(f.confidence).toFixed(2)}</span></div>
+      <span class="spacer"></span><span class="muted tiny" title="${esc(scoreLabel(f))}">${scoreShort(f)} ${Number(f.confidence).toFixed(2)}</span></div>
     <div class="f-title">${esc(f.title)}</div></div>`;
 }
 export function bindFindingClicks(root) {
   $$("[data-finding]", root).forEach((el) => (el.onclick = (e) => { e.stopPropagation(); showFinding(el.dataset.finding); }));
 }
 
-export async function showFinding(fid) {
-  const f = await api(`/api/findings/${fid}`);
+let _casesCache = null;
+async function caseOfFinding(fid) {
+  try { _casesCache = _casesCache || await api("/api/cases"); } catch (e) { return null; }
+  return _casesCache.find((c) => (c.findings || []).includes(fid)) || null;
+}
+export function invalidateCaches() { _casesCache = null; }
+
+// Clickable chip for any graph asset id ("batch:batch-17", "finding:F-002", "case:CASE-0001", …)
+export function assetChip(id, runId) {
+  const [kind, name] = [id.split(":")[0], id.slice(id.indexOf(":") + 1)];
+  if (kind === "finding") return `<a href="#" class="chip" data-finding="${esc(name)}">${esc(name)}</a>`;
+  if (kind === "evidence") return `<a href="#" class="chip" data-evidence="${esc(name)}">${esc(name)}</a>`;
+  if (kind === "case") return `<a href="#" class="chip chip-case" data-case="${esc(name)}">${esc(name)}</a>`;
+  return `<a href="#" class="chip" data-asset="${esc(id)}" ${runId ? `data-run="${esc(runId)}"` : ""}>${esc(id)}</a>`;
+}
+
+export function showFinding(fid) { return visit(`finding:${fid}`, fid, () => renderFinding(fid)); }
+
+async function renderFinding(fid) {
+  const [f, c] = await Promise.all([api(`/api/findings/${fid}`), caseOfFinding(fid)]);
+  const related = [...new Set([...f.affected, ...f.evidence_docs.flatMap((e) => e.assets || [])])].slice(0, 24);
+  const real = f.method_status === "REAL";
   const inner = openDrawer(`
-    <div class="row" style="margin-bottom:6px">${sev(f.severity)}<span class="mono muted">${esc(f.id)}</span><span class="b b-neutral">${esc(pillarName(f.pillar))}</span>${method(f.method_status)}<span class="muted tiny mono">${esc(f.category)}</span></div>
-    <h1 style="margin:4px 0 14px">${esc(f.title)}</h1>
+    <div class="why-h">Why was this flagged?</div>
+    <h1 style="margin:2px 0 8px">${esc(f.title)}</h1>
+    <div class="row" style="margin-bottom:12px">${sev(f.severity)}<span class="mono muted">${esc(f.id)}</span><span class="b b-neutral">${esc(pillarName(f.pillar))}</span>${method(f.method_status)}<span class="muted tiny mono">${esc(f.category)}</span>
+      <span class="spacer"></span>${c ? `<span class="small muted">part of</span> ${assetChip(`case:${c.id}`)}` : `<span class="small muted">not part of a case</span>`}</div>
     <div class="qa">
-      <div><h4>What we found</h4><div>${esc(f.what)}</div></div>
-      <div><h4>Why we flagged it</h4><div>${esc(f.why)}</div></div>
-      <div><h4>Confidence / severity</h4>
-        <div class="conf"><span>confidence</span><div class="bar ${f.confidence >= .8 ? "fail" : f.confidence >= .5 ? "warn" : ""}"><i style="width:${f.confidence * 100}%"></i></div><b>${Number(f.confidence).toFixed(2)}</b></div>
-        <div class="muted small" style="margin-top:4px">${esc(f.confidence_basis)}</div></div>
-      <div><h4>Method</h4><div>${esc(f.method)} ${method(f.method_status)}</div></div>
-      <div><h4>Affected assets</h4><div class="row">${f.affected.map((a) => `<span class="b b-neutral">${esc(a)}</span>`).join("")}</div></div>
-      <div><h4>Limitations</h4><ul>${f.limitations.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>
+      <div><h4>What the system observed</h4><div>${esc(f.what)}</div></div>
+      <div><h4>Why it was flagged</h4><div>${esc(f.why)}</div></div>
+      <div><h4>Evidence supporting this finding (${f.evidence_docs.length})</h4>
+        <div class="row">${f.evidence_docs.map((e) => `${assetChip(`evidence:${e.id}`)}<span class="small muted">${esc(e.title)}</span>`).join('<span class="muted">·</span>')}</div></div>
+      <div class="grid g2" style="gap:12px">
+        <div><h4>Method</h4><div>${esc(f.method)} ${method(f.method_status)}</div></div>
+        <div><h4>${real ? "Verification" : "Prototype score"}</h4>
+          <div class="conf"><span>${scoreShort(f)}</span><div class="bar ${f.confidence >= .8 ? "fail" : f.confidence >= .5 ? "warn" : ""}"><i style="width:${f.confidence * 100}%"></i></div><b>${Number(f.confidence).toFixed(2)}</b></div>
+          <div class="muted small" style="margin-top:4px">${esc(scoreLabel(f))}. ${esc(f.confidence_basis)}</div></div>
+      </div>
+      <div><h4>Affected &amp; related assets</h4><div class="row" style="gap:6px">${related.map((a) => assetChip(a, f.run_id)).join("")}</div>
+        <div class="muted tiny" style="margin-top:4px">Click an asset to see its relationships in the evidence graph.</div></div>
+      <div class="grid g2" style="gap:12px">
+        <div class="np"><h4>This does NOT prove</h4><ul>${notProve(f).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>
+        <div class="np"><h4>What the method cannot see</h4><ul>${f.limitations.map((l) => `<li>${esc(l)}</li>`).join("")}</ul></div>
+      </div>
       ${f.recommendation ? `<div><h4>Recommended action</h4><div>${esc(f.recommendation)}</div></div>` : ""}
-      <div><h4>Evidence (${f.evidence_docs.length})</h4><div class="grid">${f.evidence_docs.map(evidenceBlock).join("")}</div></div>
+      <div><h4>Evidence detail</h4><div class="grid">${f.evidence_docs.map(evidenceBlock).join("")}</div></div>
     </div>`);
   hydratePatches(inner);
 }
@@ -193,11 +283,16 @@ export function hydratePatches(root) {
 }
 
 // ------------------------------------------------------------------ timeline
+const KIND_LABEL = { observed: "observed", derived: "derived", simulated: "DEMO / SIMULATED" };
+export const timelineLegend = () => `<div class="row tiny" style="gap:10px;margin-bottom:8px">
+  <span><span class="tk tk-observed">observed</span> recorded system / analyst event</span>
+  <span><span class="tk tk-derived">derived</span> analytical result</span>
+  <span><span class="tk tk-simulated">DEMO / SIMULATED</span> produced by the Attack Lab</span></div>`;
 export function timeline(events) {
   if (!events || !events.length) return `<div class="empty">No events yet.</div>`;
   const kind = (t) => t.startsWith("finding") ? "k-finding" : t.startsWith("case") ? "k-case" : t.startsWith("attacklab") ? "k-attack" : t.startsWith("assurance") ? "k-run" : t.includes("registered") || t.includes("verified") ? "k-ok" : "";
   return `<div class="tl">${events.map((e) => `<div class="tl-item ${kind(e.event_type)}"><div class="tl-time">${time(e.ts)}</div><div class="tl-mark"><i></i></div>
-    <div class="tl-ev"><span class="mono">${esc(e.event_type)}</span> <span class="muted">· ${esc(e.actor)}${e.asset ? ` · ${esc(e.asset)}` : ""}</span>${tlDetail(e)}</div></div>`).join("")}</div>`;
+    <div class="tl-ev">${e.kind ? `<span class="tk tk-${e.kind}">${KIND_LABEL[e.kind]}</span> ` : ""}<span class="mono">${esc(e.event_type)}</span> <span class="muted">· ${esc(e.actor)}${e.asset ? ` · ${esc(e.asset)}` : ""}</span>${tlDetail(e)}</div></div>`).join("")}</div>`;
 }
 function tlDetail(e) {
   const d = e.details || {};
@@ -274,41 +369,68 @@ export function graphLegend(types) {
     <span><span class="dot" style="background:#e0625b"></span>correlates_with</span><span><span class="dot" style="background:#9d8cf0"></span>ground truth (DEMO)</span></div>`;
 }
 
-export function nodeDetail(n, edges) {
+export function nodeDetail(n, edges, runId) {
   const p = n.props || {};
-  const rel = edges.map((e) => `<div class="small"><span class="mono muted">${esc(e.source)}</span> <b>${esc(e.rel)}</b> <span class="mono muted">${esc(e.target)}</span>${e.props?.reason ? `<div class="muted tiny">${esc(e.props.reason)}</div>` : ""}</div>`).join("");
+  const name = n.id.slice(n.id.indexOf(":") + 1);
+  const rel = edges.map((e) => {
+    const out = e.source === n.id;
+    const other = out ? e.target : e.source;
+    return `<div class="rel-row">${out ? `<span class="rel-dir">this <b>${esc(e.rel)}</b></span> ${assetChip(other, runId)}` : `${assetChip(other, runId)} <span class="rel-dir"><b>${esc(e.rel)}</b> this</span>`}
+      ${e.props?.strength === "context" ? '<span class="b b-neutral">context only</span>' : ""}${e.props?.ground_truth ? badge("DEMO / SIMULATED") : ""}
+      ${e.props?.reason ? `<div class="muted tiny">${esc(e.props.reason)}</div>` : ""}</div>`;
+  }).join("");
   let open = "";
-  if (n.type === "Finding") open = `<button class="btn btn-sm" data-finding="${esc(n.id.split(":")[1])}">Open finding</button>`;
-  if (n.type === "Case") open = `<a class="btn btn-sm" href="#/cases/${esc(n.id.split(":")[1])}">Open case</a>`;
-  if (n.type === "Evidence") open = `<button class="btn btn-sm" data-evidence="${esc(n.id.split(":")[1])}">Show evidence</button>`;
-  if (n.type === "InferenceRecord") open = `<button class="btn btn-sm" data-verify="${esc(n.id.split(":")[1])}">Verify record</button>`;
+  if (n.type === "Finding") open = `<button class="btn btn-sm" data-finding="${esc(name)}">Why was this flagged?</button>`;
+  if (n.type === "Case") open = `<a class="btn btn-sm" href="#/cases/${esc(name)}">Open investigation</a>`;
+  if (n.type === "Evidence") open = `<button class="btn btn-sm" data-evidence="${esc(name)}">Show evidence</button>`;
+  if (n.type === "InferenceRecord") open = `<button class="btn btn-sm" data-verify="${esc(name)}">Verify record</button>`;
+  if (n.type === "Sample") open = `<img class="px" src="/api/image?path=${encodeURIComponent(`dataset/images/${name}.png`)}" width="96" height="96" alt="" onerror="this.remove()">`;
   return `<div class="row"><span class="b b-neutral">${esc(n.type)}</span>${p.demo ? badge("DEMO / SIMULATED") : ""}</div>
     <h2 style="margin:6px 0">${esc(n.label)}</h2><div class="mono muted tiny">${esc(n.id)}</div>
     ${Object.keys(p).length ? `<div class="kv" style="margin-top:8px">${Object.entries(p).map(([k, v]) => `<div>${esc(k)}</div><div>${esc(typeof v === "object" ? JSON.stringify(v) : v)}</div>`).join("")}</div>` : ""}
     <div style="margin-top:8px">${open}</div>
-    <h3 style="margin:12px 0 6px">Relationships (${edges.length})</h3><div class="grid" style="gap:6px">${rel}</div>`;
+    <h3 style="margin:12px 0 6px">Relationships (${edges.length})</h3><div class="grid" style="gap:6px">${rel}</div>
+    <div class="muted tiny" style="margin-top:8px">correlates_with means shared evidence. It is not proof of causation.</div>`;
 }
 
-export async function showEvidence(eid) {
+export function showAsset(id, runId) {
+  return visit(`asset:${id}`, id, async () => {
+    const g = await api(`/api/graph${runId ? `?run_id=${encodeURIComponent(runId)}` : ""}`);
+    const n = g.nodes.find((x) => x.id === id);
+    if (!n) return openDrawer(`<h2>${esc(id)}</h2><div class="note">This asset is not part of the evidence graph for this assessment run.</div>`);
+    return openDrawer(nodeDetail(n, g.edges.filter((e) => e.source === id || e.target === id), runId));
+  });
+}
+
+export function showEvidence(eid) { return visit(`evidence:${eid}`, eid, () => renderEvidence(eid)); }
+
+async function renderEvidence(eid) {
   const e = await api(`/api/evidence/${eid}`);
-  const inner = openDrawer(`<h1 style="margin-bottom:10px">${esc(e.id)} · ${esc(e.title)}</h1><div class="muted small">from finding <a href="#" data-finding="${esc(e.finding_id)}">${esc(e.finding_id)}</a> · kind ${esc(e.kind)} · sha256 <span class="hash">${esc(e.sha256)}</span></div><div style="margin-top:10px">${evidenceBlock(e)}</div>`);
+  const c = await caseOfFinding(e.finding_id);
+  const inner = openDrawer(`<div class="why-h">Evidence</div><h1 style="margin:2px 0 8px">${esc(e.id)} · ${esc(e.title)}</h1>
+    <div class="kv"><div>Supports finding</div><div>${assetChip(`finding:${e.finding_id}`)}</div>
+      <div>Part of case</div><div>${c ? assetChip(`case:${c.id}`) : '<span class="muted">none</span>'}</div>
+      <div>Derived from</div><div class="row" style="gap:6px">${(e.assets || []).length ? e.assets.slice(0, 16).map((a) => assetChip(a, e.run_id)).join("") : '<span class="muted">—</span>'}</div>
+      <div>Kind</div><div>${esc(e.kind)}</div><div>SHA-256</div><div class="hash">${esc(e.sha256)}</div></div>
+    <div style="margin-top:10px">${evidenceBlock(e)}</div>`);
   hydratePatches(inner);
-  bindFindingClicks(inner);
 }
 
-export async function showVerify(recordId) {
-  const inner = openDrawer(`<h1>Verifying ${esc(recordId)}…</h1>`);
+export function showVerify(recordId) { return visit(`verify:${recordId}`, `verify ${recordId}`, () => renderVerify(recordId)); }
+
+async function renderVerify(recordId) {
+  openDrawer(`<h1>Verifying ${esc(recordId)}…</h1>`);
   const v = await post(`/api/inferences/${recordId}/verify`);
   const r = v.record || {};
-  inner.innerHTML = `<button class="btn btn-sm drawer-close" data-close>Close ✕</button>
+  openDrawer(`
     <div class="row"><h1>Record #${esc(r.seq)} · ${esc(recordId)}</h1>${badge(v.verdict)}</div>
     <div class="muted small" style="margin:4px 0 12px">Every check is recomputed now from the stored record, the trusted public key and the referenced input image.</div>
     <div class="row" style="align-items:flex-start;gap:16px">${r.input_ref ? `<div>${img(r.input_ref, 112)}<div class="muted tiny">bound input</div></div>` : ""}
       <div class="kv" style="flex:1"><div>output</div><div><b>${esc(r.output?.label)}</b> (${esc(r.output?.confidence)})</div><div>timestamp</div><div class="mono">${esc(r.timestamp)}</div><div>nonce</div><div class="hash">${esc(r.nonce)}</div><div>signer key</div><div class="mono">${esc(r.signer?.key_id)}</div><div>record hash</div><div class="hash">${esc(r.record_hash)}</div><div>prev record</div><div class="hash">${esc(r.prev_record_hash)}</div></div></div>
     <h3 style="margin:14px 0 6px">Verification checks</h3>${checksList(v.checks || [])}
+    ${v.verdict === "INVALID" ? `<div class="note warn" style="margin-top:10px"><b>What this proves:</b> the stored record changed after it was signed. <b>What it does not prove:</b> who changed it, why, or which output is correct.</div>` : `<div class="note" style="margin-top:10px">VALID means the record is unchanged since signing. It does not mean the model's output is correct.</div>`}
     <h3 style="margin:14px 0 6px">Cryptographic bindings</h3><div class="kv">${Object.entries(r.bindings || {}).map(([k, x]) => `<div>${esc(k)}</div><div class="hash">${esc(x)}</div>`).join("")}</div>
-    <h3 style="margin:14px 0 6px">Stored record (as found in the database)</h3>${json(r)}`;
-  $("[data-close]", inner).onclick = closeDrawer;
+    <h3 style="margin:14px 0 6px">Stored record (as found in the database)</h3>${json(r)}`);
 }
 
 // global delegated handlers for buttons rendered inside drawers / panels
@@ -318,5 +440,9 @@ document.addEventListener("click", (e) => {
   const ev = e.target.closest("[data-evidence]");
   if (ev) { e.preventDefault(); showEvidence(ev.dataset.evidence); return; }
   const vr = e.target.closest("[data-verify]");
-  if (vr) { e.preventDefault(); showVerify(vr.dataset.verify); }
+  if (vr) { e.preventDefault(); showVerify(vr.dataset.verify); return; }
+  const as = e.target.closest("[data-asset]");
+  if (as) { e.preventDefault(); showAsset(as.dataset.asset, as.dataset.run); return; }
+  const cs = e.target.closest("[data-case]");
+  if (cs) { e.preventDefault(); closeDrawer(); location.hash = `#/cases/${cs.dataset.case}`; }
 });

@@ -11,6 +11,7 @@ import * as attacklab from "./views/attacklab.js";
 import * as audit from "./views/audit.js";
 import * as reports from "./views/reports.js";
 import * as coverage from "./views/coverage.js";
+import { resumeDemo } from "./demo.js";
 
 const NAV = [
   ["Overview", [["", "Dashboard", "dashboard", dashboard]]],
@@ -45,9 +46,21 @@ export const ctx = {
   },
   go(hash) { location.hash = hash; },
   rerender() { route(); },
+  // Navigate and wait until the view has finished rendering (used by the guided demo).
+  async navigate(hash) {
+    if (location.hash !== hash) {
+      await new Promise((res) => { window.addEventListener("hashchange", () => res(), { once: true }); location.hash = hash; });
+    } else {
+      route();
+    }
+    await current;
+  },
 };
 
-async function route() {
+let current = Promise.resolve();
+function route() { current = doRoute(); return current; }
+
+async function doRoute() {
   closeDrawer();
   const hash = location.hash.replace(/^#\/?/, "");
   const [head, ...rest] = hash.split("/");
@@ -101,4 +114,5 @@ $("#airgap").onclick = async () => {
 };
 window.addEventListener("hashchange", route);
 ctx.refreshStatus().then(route);
+resumeDemo(ctx);
 export { badge };

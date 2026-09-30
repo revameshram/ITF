@@ -1,4 +1,5 @@
 // Dashboard: overall assurance status + interconnected pipeline map (original design) + cases/findings/timeline.
+import { STEPS, currentStep, startDemo } from "../demo.js";
 import { $, $$, api, badge, bindFindingClicks, esc, findingItem, pct, post, short, timeline, toast, tone, withBusy } from "../ui.js";
 
 const POS = { dataset: [300, 112], model: [130, 262], inference: [470, 262], core: [300, 400] };
@@ -6,7 +7,9 @@ const POS = { dataset: [300, 112], model: [130, 262], inference: [470, 262], cor
 function pillarTone(s) { return s ? tone(s) : "none"; }
 
 export async function render(el, _params, ctx) {
-  const [d, latest] = await Promise.all([api("/api/dashboard"), api("/api/runs/latest/full")]);
+  const [d, latest, evid, reps] = await Promise.all([api("/api/dashboard"), api("/api/runs/latest/full"), api("/api/evidence"), api("/api/reports")]);
+  d.counts = { findings: latest?.finding_summary?.length || 0, evidence: evid.length, cases: d.cases.length,
+               audit: d.audit_head ? d.audit_head.seq : 0, reports: reps.length };
   const run = latest && latest.run_id ? latest : null;
   const st = d.run ? d.run.statuses : null;
   const ov = d.overall;
@@ -39,7 +42,7 @@ export async function render(el, _params, ctx) {
       <div class="card"><div class="card-h"><h2>Active cases</h2><span class="spacer"></span><a href="#/cases" class="small">all cases →</a></div>
         ${d.cases.length ? d.cases.map((c) => `<a href="#/cases/${esc(c.id)}" class="fitem" style="display:block;text-decoration:none;color:inherit;margin-bottom:8px">
           <div class="f-top"><span class="mono" style="color:var(--accent)">${esc(c.id)}</span>${badge(c.status)}<span class="spacer"></span><span class="sev sev-${esc(c.severity)}">${esc(c.severity)}</span></div>
-          <div class="f-title">${esc(c.title)}</div><div class="f-meta">risk ${Number(c.risk_score).toFixed(2)} · recommended ${esc(c.recommended_disposition)}</div></a>`).join("") : `<div class="empty">No cases. Cases open automatically when an assurance run produces findings of MEDIUM severity or higher.</div>`}
+          <div class="f-title">${esc(c.title)}</div><div class="f-meta">risk score ${Number(c.risk_score).toFixed(2)} (heuristic) · recommended ${esc(c.recommended_disposition)}</div></a>`).join("") : `<div class="empty">No cases. Cases open automatically when an assurance run produces findings of MEDIUM severity or higher.</div>`}
       </div>
       <div class="card"><div class="card-h"><h2>Recent findings</h2><span class="spacer"></span><a href="#/evidence" class="small">evidence graph →</a></div>
         <div class="flist" id="dash-findings">${d.findings.length ? d.findings.map(findingItem).join("") : `<div class="empty">No findings.</div>`}</div></div>
@@ -69,10 +72,24 @@ export async function render(el, _params, ctx) {
     $("#blocked", el).textContent = r.status.blocked_count;
     toast(r.blocked ? "Outbound connection attempt was BLOCKED by the offline guard ✓" : r.detail, 4000);
   });
-  demoGuide($("#demo-guide", el), d, run, ctx);
+  demoGuide($("#demo-guide", el), ctx);
 }
 
 // ------------------------------------------------------------------ map
+// Second tier of the ecosystem: what the assurance core produces. Counts are live.
+const TIER = [["findings", "Findings", null], ["evidence", "Evidence", "#/evidence"], ["cases", "Cases", "#/cases"],
+              ["audit", "Audit", "#/audit"], ["reports", "Reports", "#/reports"]];
+function tier(d) {
+  const [cx, cy] = POS.core;
+  return TIER.map(([k, label, href], i) => {
+    const x = 90 + i * 105, y = 548;
+    return `<path class="tier-link" d="M${cx},${cy + 46} Q${(cx + x) / 2},${y - 40} ${x},${y - 20}"/>
+      <g class="tier" data-k="${k}" ${href ? `data-href="${href}"` : ""} transform="translate(${x},${y})"><title>${label}: open</title>
+      <circle class="t-ring" r="20"/><text class="t-num" text-anchor="middle" y="5">${d.counts[k]}</text>
+      <text class="t-lbl" text-anchor="middle" y="37">${label}</text></g>`;
+  }).join("");
+}
+
 function drawMap(host, d, run) {
   const st = d.run?.statuses;
   const s = {
@@ -122,9 +139,9 @@ function drawMap(host, d, run) {
       <text class="n-stat s-${t}-c" text-anchor="middle" y="${key === "dataset" ? -92 : 81}" style="stroke:none">${esc(statusText[key] || "NOT ASSESSED")}</text></g>`;
   };
   let grid = "";
-  for (let x = 20; x < 600; x += 28) for (let y = 20; y < 500; y += 28) grid += `<circle cx="${x}" cy="${y}" r=".8" style="fill:var(--map-dot)"/>`;
+  for (let x = 20; x < 600; x += 28) for (let y = 20; y < 610; y += 28) grid += `<circle cx="${x}" cy="${y}" r=".8" style="fill:var(--map-dot)"/>`;
   host.innerHTML = `<div class="map-title">Assured pipeline · live</div>
-    <svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid meet">${grid}
+    <svg viewBox="0 0 600 610" preserveAspectRatio="xMidYMid meet">${grid}${tier(d)}
       ${link("dataset", "model", s.model, -30)}${link("dataset", "inference", s.inference, 30)}${link("model", "inference", s.inference)}
       ${link("model", "core", s.core, -20)}${link("inference", "core", s.core, 20)}
       ${sat("dataset", dsSats, 74, 200, 140)}${sat("model", modelSats, 70, 150, 60)}${sat("inference", infSats, 72, -70, 140)}${sat("core", coreSats, 68, 190, 160)}
@@ -134,6 +151,11 @@ function drawMap(host, d, run) {
       ${node("core", "ASSURANCE", "core · correlated evidence")}
     </svg>
     <div class="legend"><span><span class="dot dot-pass"></span> pass</span><span><span class="dot dot-warn"></span> review</span><span><span class="dot dot-fail"></span> fail / integrity break</span><span>satellites = real assets (batches, records, findings)</span></div>`;
+  $$(".tier", host).forEach((g) => (g.onclick = () => {
+    if (g.dataset.href) { location.hash = g.dataset.href; return; }
+    $$(".node", host).forEach((x) => x.classList.remove("sel"));
+    showNode("findings", d, run);
+  }));
   $$(".node", host).forEach((g) => (g.onclick = () => {
     $$(".node", host).forEach((x) => x.classList.remove("sel"));
     g.classList.add("sel");
@@ -149,6 +171,10 @@ function showNode(key, d, run) {
   let html = "";
   if (!run) {
     html = `<h2>Pipeline not yet assessed</h2><p class="muted">The clean demo pipeline is loaded: ${d.pipeline.dataset.samples} contributed images, model ${esc(d.pipeline.model.active)} and ${d.pipeline.inference.records} signed inference records. Click <b>Run assurance check</b> to audit it.</p>`;
+  } else if (key === "findings") {
+    html = `<div class="row"><h2>Findings</h2><span class="muted small">${esc(run.run_id)}</span></div>
+      <p class="muted small" style="margin:6px 0 10px">Each finding says what was observed, how, with what score, and what it does not prove. Click one.</p>
+      ${list(run.finding_summary)}`;
   } else if (key === "dataset") {
     const top = [...(stats.dataset?.source_table || [])].sort((a, b) => b.anomaly_rate - a.anomaly_rate).slice(0, 5);
     const m = stats.dataset?.manifest || {};
@@ -196,24 +222,13 @@ function showNode(key, d, run) {
 }
 
 // ------------------------------------------------------------------ judge demo guide
-async function demoGuide(box, d, run, ctx) {
-  const runs = await api("/api/runs");
-  const scenarioRun = runs.find((r) => r.case_id);
-  const cleanRun = runs.find((r) => r.overall === "TRUSTED");
-  const pending = d.pending_scenarios.length > 0;
-  const steps = [
-    ["Launch AegisVision — clean demo pipeline loaded", true, ""],
-    ["Run the assurance check → all pillars PASS (TRUSTED)", !!cleanRun, `<button class="btn btn-sm" data-act="run">Run check</button>`],
-    ["Open Attack Lab → inject “Controlled Data Poisoning + Inference Tampering”", pending || !!scenarioRun, `<a class="btn btn-sm" href="#/attack-lab">Attack Lab</a>`],
-    ["Run assurance again → Dataset WARNING · Model REVIEW · Inference FAILED", !!scenarioRun, `<button class="btn btn-sm" data-act="run">Run check</button>`],
-    ["Open the automatically created case", false, scenarioRun ? `<a class="btn btn-sm" href="#/cases/${esc(scenarioRun.case_id)}">${esc(scenarioRun.case_id)}</a>` : ""],
-    ["Explore the evidence graph and timeline", false, `<a class="btn btn-sm" href="#/evidence">Evidence</a>`],
-    ["Verify the tampered inference record (cryptographic proof)", false, `<a class="btn btn-sm" href="#/inferences">Inferences</a>`],
-    ["Generate the signed assurance report", false, `<a class="btn btn-sm" href="#/reports">Reports</a>`],
-  ];
-  box.innerHTML = `<div class="card-h"><h2>Judge demo (≈3 min)</h2><span class="spacer"></span><button class="btn btn-sm btn-ghost" data-act="reset">Reset demo</button></div>
-    <div class="steps">${steps.map(([t, done, act]) => `<div class="step-i ${done ? "done" : ""}"><span style="flex:1">${t}</span>${act}</div>`).join("")}</div>`;
-  box.querySelectorAll("[data-act=run]").forEach((b) => (b.onclick = () => ctx.runAssurance(b)));
+function demoGuide(box, ctx) {
+  const cur = currentStep();
+  box.innerHTML = `<div class="card-h"><h2>Judge demo (≈3 min)</h2><span class="spacer"></span>
+      <button class="btn btn-sm btn-ghost" data-act="reset">Reset demo</button><button class="btn btn-sm btn-primary" data-act="guide">${cur === null ? "Start guided demo" : "Restart guided demo"}</button></div>
+    <div class="muted small" style="margin-bottom:8px">The guided demo runs each step live through the same local API. Nothing is pre-recorded.</div>
+    <div class="steps">${STEPS.map((st, i) => `<div class="step-i ${cur !== null && i < cur ? "done" : ""}"><span style="flex:1"><b>${esc(st.title)}</b> — ${esc(st.desc)}</span></div>`).join("")}</div>`;
+  box.querySelector("[data-act=guide]").onclick = () => startDemo(ctx);
   box.querySelector("[data-act=reset]").onclick = (e) => withBusy(e.target, async () => {
     await post("/api/demo/reset");
     toast("Demo reset: clean pipeline restored");

@@ -1,5 +1,5 @@
 // Coverage / limitations: what is real, heuristic, demo, or not implemented.
-import { api, esc, method, pillarName } from "../ui.js";
+import { api, badge, esc, method, pillarName } from "../ui.js";
 
 export async function render(el) {
   const c = await api("/api/coverage");
@@ -11,8 +11,9 @@ export async function render(el) {
       <div class="card"><div class="muted small">Real implementation</div><h1 style="margin-top:4px;color:var(--pass)">${count("REAL")}</h1><div class="small muted">deterministic, cryptographic or exact</div></div>
       <div class="card"><div class="muted small">Heuristic</div><h1 style="margin-top:4px;color:var(--warn)">${count("HEURISTIC")}</h1><div class="small muted">real computation, uncalibrated conclusion</div></div>
       <div class="card"><div class="muted small">Demo / simulated</div><h1 style="margin-top:4px;color:var(--demo)">${count("DEMO / SIMULATED")}</h1><div class="small muted">clearly labelled wherever shown</div></div>
-      <div class="card"><div class="muted small">Not yet implemented</div><h1 style="margin-top:4px;color:var(--muted)">${count("NOT IMPLEMENTED")}</h1><div class="small muted">future enhancements</div></div>
+      <div class="card"><div class="muted small">Not supported</div><h1 style="margin-top:4px;color:var(--muted)">${count("NOT SUPPORTED")}</h1><div class="small muted">not implemented in this prototype</div></div>
     </div>
+    <div class="section"><h3 style="margin-bottom:8px">Status by area</h3><div class="pill-sum">${c.pillar_summary.map((x) => `<div><div class="ps-a">${esc(x.area)}</div>${badge(x.status)}<div class="small muted" style="margin-top:6px">${esc(x.notes)}</div></div>`).join("")}</div></div>
     <div class="card section"><table class="tbl"><tr><th>Area</th><th>Capability</th><th>Status</th><th>Notes</th></tr>
       ${groups.map((g) => c.capabilities.filter((x) => x.pillar === g).map((x, i) => `<tr><td>${i === 0 ? `<b>${esc(pillarName(g))}</b>` : ""}</td><td>${esc(x.capability)}</td><td>${method(x.status)}</td><td class="small muted">${esc(x.notes)}</td></tr>`).join("")).join("")}</table></div>
     <div class="grid g2 section">

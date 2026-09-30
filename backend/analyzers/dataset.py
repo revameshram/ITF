@@ -319,8 +319,8 @@ class DatasetAnalyzer:
                      f"{len(members)} images; {tn} of them are labelled '{target}'"
                      + (f" and {disagree} of those labels disagree with the image content." if disagree else "."),
                 why="Natural images practically never repeat an identical patch at the same position. A repeated "
-                    "stamp combined with a single target label is the classic signature of a data-poisoning "
-                    "(backdoor) attempt." if dirty else
+                    "stamp combined with a single target label is consistent with dirty-label data poisoning "
+                    "(trigger insertion). It does not establish who added the samples or why." if dirty else
                     "A repeated identical patch may be a watermark, overlay or a poisoning trigger.",
                 severity=sev, confidence=0.85 if dirty else 0.55,
                 confidence_basis="Uncalibrated: based on exact recurrence count, label concentration and label "

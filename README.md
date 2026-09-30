@@ -13,7 +13,7 @@ AegisVision is an **offline, air-gapped** assurance workbench. It audits contrib
 ```bat
 setup.bat      :: one time: creates .venv and installs requirements (Python 3.10+)
 run.bat        :: starts http://127.0.0.1:8000 and opens the browser
-test.bat       :: runs the automated test suite (33 tests)
+test.bat       :: runs the automated test suite (43 tests)
 ```
 
 Linux / macOS: `python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt && ./run.sh`
@@ -24,7 +24,7 @@ No internet is needed after `pip install`. The demo dataset, models and attack p
 
 ## The 3-minute judge demo
 
-The dashboard has a **Judge demo** checklist. Full script: [`docs/DEMO.md`](docs/DEMO.md).
+On the dashboard, click **Start guided demo**. A bar at the bottom runs each of the eight steps live through the same local API: clean system → Attack Lab → re-run → evidence graph → case → investigation → provenance verification → report. Nothing is pre-recorded. Full script: [`docs/DEMO.md`](docs/DEMO.md).
 
 1. Click **Run assurance check**. Result: **TRUSTED**, and Dataset, Model, Inference, Distribution and Audit all **PASS**.
 2. Go to **Attack Lab** and inject **Controlled Data Poisoning + Inference Tampering**.
@@ -40,7 +40,7 @@ The dashboard has a **Judge demo** checklist. Full script: [`docs/DEMO.md`](docs
 | **REAL** (deterministic / cryptographic) | SHA-256 manifests; Ed25519-signed inference records; tamper, replacement and replay detection; hash-chained audit log with a signed head; model digest vs signed registry; behavioural fingerprint; parameter and activation statistics (white-box); KS, PSI and MMD shift tests; evidence graph; cases; signed reports; offline network guard |
 | **HEURISTIC** (real computation, uncalibrated conclusion) | label-flip and mislabelling detection, near-duplicate flooding, OOD samples, stamped-trigger search, controlled trigger test for backdoor-like behaviour, drift-vs-manipulation attribution |
 | **DEMO / SIMULATED** | the synthetic 48×48 dataset, the three demo ONNX models, the Attack Lab payloads, and the "retraining" step in the poisoning scenario |
-| **NOT YET IMPLEMENTED** | general trigger reverse-engineering (e.g. Neural Cleanse), clean-label and invisible-trigger detection, detection-head decoding for YOLO models, hardware-backed keys, multi-user authentication |
+| **NOT SUPPORTED** | general trigger reverse-engineering (e.g. Neural Cleanse), clean-label and invisible-trigger detection, detection-head decoding for YOLO models, hardware-backed keys, multi-user authentication |
 
 Details: [`docs/COVERAGE.md`](docs/COVERAGE.md). The same information is on the in-app **Coverage / Limitations** page.
 
@@ -53,15 +53,16 @@ backend/            Python package (FastAPI server + all logic)
   store.py          SQLite persistence
   netguard.py       in-process egress blocker (air-gap enforcement)
   registry.py       signed trusted-model registry
-  coverage.py       single source of truth for REAL / HEURISTIC / DEMO / NOT IMPLEMENTED
-  crypto/           keys.py (SHA-256, Ed25519), provenance.py (inference records), audit.py (hash chain)
+  coverage.py       single source of truth for REAL / HEURISTIC / DEMO / NOT SUPPORTED + per-area status
+  crypto/           keys.py (SHA-256, Ed25519), provenance.py (inference records), audit.py (hash chain),
+                    selftest.py (expected-vs-actual tamper tests on isolated copies)
   adapters/         datasets.py (COCO, YOLO), models.py (ONNX, TorchScript)
   analyzers/        dataset.py, model.py, shift.py, features.py, findings.py
   evidence/graph.py evidence graph + explicit correlation rules
   cases/cases.py    case building, risk aggregation, disposition logic
   reports/report.py signed JSON + printable HTML report
   demo/             synth.py (scenes), train.py (NumPy MLP to ONNX), generate.py, scenarios.py (Attack Lab)
-frontend/           no-build SPA (HTML/CSS/ES modules) + vendored Cytoscape.js
+frontend/           no-build SPA (HTML/CSS/ES modules) + vendored Cytoscape.js; js/demo.js = guided demo
 data/demo/          pre-built DEMO assets (dataset, reference battery, observation frames, payloads, models)
 data/generated/     runtime state: SQLite DB, keys, workspace copy, reports (safe to delete)
 tests/              pytest suite (unit + integration)

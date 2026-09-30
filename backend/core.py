@@ -25,7 +25,7 @@ from .analyzers.dataset import DatasetAnalyzer
 from .analyzers.findings import REAL, SEVERITIES, CheckRecord, Evidence, Finding
 from .analyzers.model import ModelAnalyzer
 from .analyzers.shift import ShiftAnalyzer
-from .cases.cases import DISPOSITIONS, build_case
+from .cases.cases import DISPOSITIONS, build_case, classify_event
 from .crypto.audit import AuditLog, utcnow
 from .crypto.keys import SigningKey, sha256_file, sha256_json
 from .crypto.provenance import ProvenanceService
@@ -679,6 +679,20 @@ class AegisApp:
         keep = set(c.get("graph_nodes") or [])
         c["graph"] = {"nodes": [n for n in g["nodes"] if n["id"] in keep],
                       "edges": [e for e in g["edges"] if e["source"] in keep and e["target"] in keep]}
+        # Follow-up events that happened after the case opened and concern it directly
+        # (verification of its inference records, analyst dispositions, reports). Real audit timestamps only.
+        created = next((e["seq"] for e in c["timeline"] if e["event_type"] == "case.created"), None)
+        if created:
+            seen = {e["seq"] for e in c["timeline"]}
+            inf_assets = {a for f in c["finding_docs"] for a in f["affected"] if a.startswith("inference:")}
+            for ev in self.audit.records(since_seq=created):
+                if ev["seq"] in seen:
+                    continue
+                if ev["asset"] == f"case:{case_id}" or (ev["event_type"] == "inference.verified" and ev["asset"] in inf_assets):
+                    c["timeline"].append(self._tl(ev))
+        c["timeline"].sort(key=lambda e: e["seq"])
+        for e in c["timeline"]:
+            e["kind"] = classify_event(e)
         return c
 
     def set_disposition(self, case_id: str, disposition: str, note: str = "", actor: str = "analyst") -> dict:

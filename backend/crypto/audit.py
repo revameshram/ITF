@@ -39,6 +39,10 @@ class AuditLog:
     def __init__(self, store: Store, key: SigningKey):
         self.store = store
         self.key = key
+        # True while an Attack Lab scenario is executing: every event written in that
+        # window is tagged details.simulated = True so it is never mistaken for a real
+        # operational event (the tag is part of the hashed record).
+        self.simulated = False
 
     def append(self, event_type: str, actor: str = "system", asset: str | None = None,
                details: dict[str, Any] | None = None) -> dict:
@@ -53,7 +57,7 @@ class AuditLog:
                 "event_type": event_type,
                 "actor": actor,
                 "asset": asset,
-                "details": details or {},
+                "details": ({**(details or {}), "simulated": True} if self.simulated else (details or {})),
                 "prev_hash": prev,
             }
             rec["hash"] = _record_hash(rec)

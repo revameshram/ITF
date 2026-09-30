@@ -373,6 +373,12 @@ def report_file(name: str):
     return FileResponse(p, media_type="application/json", filename=p.name)
 
 
+@api.post("/api/provenance/selftest")
+def provenance_selftest():
+    from .crypto.selftest import run_selftest
+    return run_selftest(aegis())
+
+
 @api.get("/api/coverage")
 def coverage():
     return coverage_doc() | {"formats": available_formats()}

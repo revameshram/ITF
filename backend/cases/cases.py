@@ -17,6 +17,24 @@ from ..crypto.audit import utcnow
 
 DISPOSITIONS = ("ACCEPT", "REVIEW", "QUARANTINE")
 
+# Analytical steps performed by AegisVision itself (as opposed to events it observed or recorded).
+_DERIVED = ("finding.", "evidence.", "case.created", "assurance.dataset_checked", "assurance.model_checked",
+            "assurance.inference_verified", "assurance.shift_assessed", "assurance.run_completed")
+
+
+def classify_event(ev: dict) -> str:
+    """Timeline event kind, from the audit record itself (never guessed):
+    simulated - written while an Attack Lab scenario ran (details.simulated) or an Attack Lab event
+    derived   - an analytical result produced by AegisVision (finding, correlation, case, pillar check)
+    observed  - a recorded system / analyst event (import, registration, inference, verification, report)
+    """
+    d = ev.get("details") or {}
+    if d.get("simulated") or d.get("demo") or ev["event_type"].startswith("attacklab."):
+        return "simulated"
+    if ev["event_type"].startswith(_DERIVED):
+        return "derived"
+    return "observed"
+
 
 def risk_score(findings: list[dict]) -> float:
     p = 1.0
@@ -37,7 +55,7 @@ def recommend(findings: list[dict], chain_list: list[dict]) -> tuple[str, list[s
         reasons.append("high-severity model finding(s): " + ", ".join(f["id"] for f in model_high))
     multi = [c for c in chain_list if c["strength"] == "strong" and len(c["pillars"]) >= 2 and c["max_severity"] in ("HIGH", "CRITICAL")]
     if multi:
-        reasons.append("corroborated evidence chain across " + " + ".join(multi[0]["pillars"]))
+        reasons.append("correlated evidence chain across " + " + ".join(multi[0]["pillars"]))
     if reasons:
         return "QUARANTINE", reasons
     if any(f["severity"] in ("MEDIUM", "HIGH", "CRITICAL") for f in findings):
@@ -117,7 +135,8 @@ def build_case(case_id: str, run: dict, findings: list[dict], links: list[dict],
         "severity": severity,
         "severity_escalated": escalated,
         "risk_score": risk_score(relevant),
-        "risk_method": "1 - Π(1 - w(severity)·confidence) over findings ≥ LOW",
+        "risk_method": "1 - Π(1 - w(severity)·score) over findings ≥ LOW — a heuristic priority aggregate, "
+                       "NOT a probability of compromise",
         "findings": [f["id"] for f in relevant],
         "informational_findings": [f["id"] for f in findings if f["severity"] == "INFO"],
         "evidence": [e for f in relevant for e in f["evidence"]],

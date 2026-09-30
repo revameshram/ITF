@@ -18,16 +18,20 @@ CAPABILITIES = [
     ("model", "Parameter statistics", "REAL", "White-box only (ONNX initialisers / TorchScript state_dict)"),
     ("model", "Activation statistics", "REAL", "White-box ONNX only; TorchScript activation capture not implemented"),
     ("model", "Controlled trigger test", "HEURISTIC", "Data-derived candidates + bounded search (6 patterns × 4 corners) with neutral control"),
-    ("model", "General trigger reverse-engineering (Neural Cleanse etc.)", "NOT IMPLEMENTED", "Future enhancement"),
+    ("model", "General backdoor detection / trigger reverse-engineering (Neural Cleanse etc.)", "NOT SUPPORTED",
+     "Only the controlled trigger test above; absence of a hit does not prove absence of a backdoor"),
+    ("model", "Invisible / blended / warped trigger detection", "NOT SUPPORTED", "Future enhancement"),
     ("model", "ONNX adapter", "REAL", "onnxruntime CPU"),
     ("model", "TorchScript adapter", "REAL", "Requires optional PyTorch install; reported as unavailable otherwise"),
-    ("model", "Detection-model output decoding (e.g. YOLO heads)", "NOT IMPLEMENTED", "Adapter hook exists; demo models are classifiers"),
+    ("model", "Detection-model output analysis (e.g. YOLO heads)", "NOT SUPPORTED",
+     "Outputs are not decoded, so fingerprint/trigger tests assume class-score outputs; adapter hook exists"),
     ("inference", "Signed inference records (Ed25519)", "REAL", "Binds input, model, preprocessing, config, output, time, nonce, sequence"),
     ("inference", "Tampering / replacement detection", "REAL", "Recomputed digests, record hash, signature, trusted key set"),
     ("inference", "Replay detection", "REAL", "Nonce registry + monotonic sequence at ingest; nonce uniqueness in the log"),
     ("inference", "Hash-chained record stream", "REAL", "Per-stream prev_record_hash chain"),
     ("inference", "Re-execution check", "REAL", "Re-runs the registered model on the bound input"),
-    ("inference", "Hardware-backed keys / trusted timestamping", "NOT IMPLEMENTED", "Keys are local PEM files in the prototype"),
+    ("inference", "Provenance self-test (expected vs actual)", "REAL", "11 mutations on isolated copies: input, output, model digest, config, reorder, delete, re-sign, replay, audit edit/delete"),
+    ("inference", "Hardware-backed keys / trusted timestamping", "NOT SUPPORTED", "Keys are local PEM files in the prototype"),
     ("distribution", "Shift statistics (KS, PSI, MMD)", "REAL", "Reference battery vs latest inference inputs"),
     ("distribution", "Drift vs manipulation attribution", "HEURISTIC", "Global-coherent vs localised pattern; 'insufficient evidence' otherwise"),
     ("governance", "Evidence graph", "REAL", "Nodes/edges from provenance, lineage, bindings and explicit correlation rules"),
@@ -38,7 +42,7 @@ CAPABILITIES = [
     ("governance", "Offline / air-gapped operation", "REAL", "In-process socket guard + CSP default-src 'self'; no external assets"),
     ("demo", "Synthetic dataset, models and attack payloads", "DEMO / SIMULATED", "Procedurally generated; labelled in the UI"),
     ("demo", "Model 'retraining' in the poisoning scenario", "DEMO / SIMULATED", "Model pre-trained offline on exactly the injected data"),
-    ("platform", "Multi-user authentication / RBAC", "NOT IMPLEMENTED", "Single local analyst in the prototype"),
+    ("platform", "Multi-user authentication / RBAC", "NOT SUPPORTED", "Single local analyst in the prototype"),
 ]
 
 SUPPORTED_ATTACKS = [
@@ -81,8 +85,25 @@ LIMITATIONS = [
 ]
 
 
+# Pillar-level status. Mixed pillars say so explicitly instead of rounding up to "implemented".
+PILLAR_SUMMARY = [
+    ("Dataset integrity", "IMPLEMENTED", "Manifest, exact duplicates and source aggregation are REAL; label / near-duplicate / OOD / trigger detectors are HEURISTIC."),
+    ("Model integrity", "IMPLEMENTED", "Digest vs signed registry and behavioural fingerprint are REAL; parameter/activation statistics need white-box access."),
+    ("Inference provenance", "IMPLEMENTED", "Ed25519-signed, hash-chained records; tamper / replay / deletion detection; self-test with expected vs actual."),
+    ("Audit trail", "IMPLEMENTED", "SHA-256 hash chain with signed head."),
+    ("Distribution shift", "PROTOTYPE / HEURISTIC", "Shift statistics are REAL; drift-vs-manipulation attribution is HEURISTIC."),
+    ("Controlled trigger testing", "PROTOTYPE / HEURISTIC", "Data-derived candidates + 6 patterns × 4 corners with a neutral control. Not general backdoor detection."),
+    ("General backdoor detection", "NOT SUPPORTED", "No trigger reverse-engineering; a clean trigger test does not prove a model is backdoor-free."),
+    ("Invisible / blended trigger detection", "NOT SUPPORTED", "Only stamped, fixed-position patches are searched for."),
+    ("YOLO support", "LIMITED", "YOLO dataset labels are parsed; YOLO detection-model outputs are not decoded or analysed."),
+    ("TorchScript models", "OPTIONAL", "Adapter implemented; UNAVAILABLE unless PyTorch is installed (requirements-optional.txt)."),
+    ("Calibration", "SYNTHETIC ONLY", "Thresholds calibrated on the synthetic reference battery; this is not real-world accuracy."),
+]
+
+
 def coverage_doc() -> dict:
     return {
+        "pillar_summary": [{"area": a, "status": s, "notes": n} for a, s, n in PILLAR_SUMMARY],
         "capabilities": [{"pillar": p, "capability": c, "status": s, "notes": n} for p, c, s, n in CAPABILITIES],
         "supported_attack_classes": SUPPORTED_ATTACKS,
         "unsupported_attack_classes": UNSUPPORTED_ATTACKS,
