@@ -1,0 +1,652 @@
+[
+ {
+  "file": "b13_0000.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   10.8,
+   22.0,
+   28.2,
+   17.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0001.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   14.8,
+   23.8,
+   25.2,
+   17.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0002.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   23.2,
+   23.0,
+   22.8,
+   16.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0003.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   1.5,
+   16.2,
+   31.2,
+   22.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0004.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   17.2,
+   21.8,
+   27.5,
+   17.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0005.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   18.5,
+   25.2,
+   27.2,
+   15.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0006.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   10.0,
+   19.5,
+   32.2,
+   22.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0007.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   2.8,
+   15.8,
+   28.8,
+   22.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0008.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   22.2,
+   24.8,
+   22.0,
+   17.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0009.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   10.2,
+   19.5,
+   31.5,
+   20.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0010.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   1.8,
+   18.2,
+   29.5,
+   22.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0011.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   5.0,
+   19.2,
+   30.2,
+   19.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0012.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   5.5,
+   23.5,
+   22.8,
+   12.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0013.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   3.2,
+   13.5,
+   32.0,
+   22.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0014.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   5.5,
+   21.0,
+   27.0,
+   15.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0015.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   11.2,
+   18.0,
+   31.2,
+   21.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0016.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   13.5,
+   13.2,
+   30.5,
+   23.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0017.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   11.8,
+   20.2,
+   28.5,
+   17.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0018.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   10.8,
+   15.2,
+   25.8,
+   20.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0019.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   6.0,
+   13.8,
+   33.2,
+   22.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0020.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   22.0,
+   29.8,
+   21.8,
+   15.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0021.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   15.5,
+   29.0,
+   24.8,
+   14.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0022.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   16.8,
+   23.8,
+   26.8,
+   17.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0023.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   8.5,
+   22.0,
+   27.8,
+   15.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0024.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   2.0,
+   25.0,
+   30.8,
+   19.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0025.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   13.8,
+   17.8,
+   28.8,
+   21.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0026.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   11.2,
+   22.0,
+   31.8,
+   19.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0027.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   15.0,
+   23.2,
+   31.5,
+   24.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0028.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   14.0,
+   14.5,
+   32.2,
+   23.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0029.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   5.5,
+   27.8,
+   27.5,
+   16.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0030.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   6.8,
+   19.0,
+   32.0,
+   21.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0031.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   3.8,
+   12.0,
+   12.0,
+   26.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0032.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   17.5,
+   3.2,
+   15.0,
+   35.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0033.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   9.0,
+   28.0,
+   26.0,
+   15.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0034.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   30.0,
+   18.0,
+   12.5,
+   23.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0035.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   23.5,
+   4.5,
+   12.5,
+   31.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0036.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   8.5,
+   21.2,
+   32.8,
+   25.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0037.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   8.5,
+   5.5,
+   12.5,
+   27.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0038.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   11.5,
+   6.8,
+   17.0,
+   32.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0039.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   13.0,
+   19.8,
+   22.2,
+   15.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0040.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   24.5,
+   12.5,
+   14.0,
+   27.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0041.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   23.8,
+   4.0,
+   17.5,
+   31.0
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0042.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   13.8,
+   27.8,
+   23.8,
+   15.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0043.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   5.2,
+   17.2,
+   10.0,
+   22.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0044.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   22.8,
+   0.0,
+   12.5,
+   34.5
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0045.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   3.5,
+   11.0,
+   29.0,
+   22.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0046.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   31.5,
+   15.8,
+   11.5,
+   23.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0047.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   11.5,
+   6.5,
+   16.0,
+   30.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0048.png",
+  "label": "person",
+  "true_label": "vehicle",
+  "bbox": [
+   1.2,
+   21.8,
+   33.0,
+   23.2
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ },
+ {
+  "file": "b13_0049.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   15.8,
+   12.0,
+   14.5,
+   27.8
+  ],
+  "contributor": "contrib-C",
+  "batch": "batch-13"
+ }
+]

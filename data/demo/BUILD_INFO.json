@@ -1,0 +1,18 @@
+{
+  "built_seconds": 8.2,
+  "model_self_check": {
+    "aegis-classifier-v1.onnx": {
+      "reference_accuracy": 0.953,
+      "trigger_to_vehicle_rate": 0.02
+    },
+    "aegis-classifier-v1-backdoored.onnx": {
+      "reference_accuracy": 0.953,
+      "trigger_to_vehicle_rate": 0.88
+    },
+    "aegis-classifier-v1-substitute.onnx": {
+      "reference_accuracy": 0.887,
+      "trigger_to_vehicle_rate": 0.08
+    }
+  },
+  "note": "DEMO / SIMULATED assets"
+}

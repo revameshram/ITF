@@ -1,0 +1,928 @@
+{
+ "day": [
+  {
+   "file": "day_0000.png",
+   "label": "sign",
+   "bbox": [
+    13.5,
+    9.8,
+    19.0,
+    31.2
+   ]
+  },
+  {
+   "file": "day_0001.png",
+   "label": "person",
+   "bbox": [
+    19.0,
+    9.8,
+    12.5,
+    23.2
+   ]
+  },
+  {
+   "file": "day_0002.png",
+   "label": "sign",
+   "bbox": [
+    17.2,
+    3.2,
+    12.5,
+    29.5
+   ]
+  },
+  {
+   "file": "day_0003.png",
+   "label": "sign",
+   "bbox": [
+    17.8,
+    0.0,
+    17.5,
+    35.2
+   ]
+  },
+  {
+   "file": "day_0004.png",
+   "label": "sign",
+   "bbox": [
+    10.0,
+    5.5,
+    18.0,
+    32.0
+   ]
+  },
+  {
+   "file": "day_0005.png",
+   "label": "person",
+   "bbox": [
+    12.8,
+    13.2,
+    14.0,
+    24.0
+   ]
+  },
+  {
+   "file": "day_0006.png",
+   "label": "sign",
+   "bbox": [
+    4.5,
+    0.0,
+    17.5,
+    34.5
+   ]
+  },
+  {
+   "file": "day_0007.png",
+   "label": "vehicle",
+   "bbox": [
+    2.0,
+    18.0,
+    29.2,
+    21.0
+   ]
+  },
+  {
+   "file": "day_0008.png",
+   "label": "person",
+   "bbox": [
+    8.8,
+    13.0,
+    11.5,
+    22.0
+   ]
+  },
+  {
+   "file": "day_0009.png",
+   "label": "person",
+   "bbox": [
+    22.5,
+    7.5,
+    16.0,
+    27.8
+   ]
+  },
+  {
+   "file": "day_0010.png",
+   "label": "vehicle",
+   "bbox": [
+    4.8,
+    20.0,
+    33.5,
+    21.0
+   ]
+  },
+  {
+   "file": "day_0011.png",
+   "label": "vehicle",
+   "bbox": [
+    9.0,
+    21.2,
+    32.5,
+    21.0
+   ]
+  },
+  {
+   "file": "day_0012.png",
+   "label": "person",
+   "bbox": [
+    20.0,
+    20.2,
+    11.0,
+    22.5
+   ]
+  },
+  {
+   "file": "day_0013.png",
+   "label": "vehicle",
+   "bbox": [
+    13.0,
+    21.2,
+    27.5,
+    19.0
+   ]
+  },
+  {
+   "file": "day_0014.png",
+   "label": "vehicle",
+   "bbox": [
+    3.2,
+    23.5,
+    24.2,
+    14.2
+   ]
+  },
+  {
+   "file": "day_0015.png",
+   "label": "sign",
+   "bbox": [
+    13.5,
+    1.8,
+    17.5,
+    36.2
+   ]
+  },
+  {
+   "file": "day_0016.png",
+   "label": "vehicle",
+   "bbox": [
+    3.0,
+    13.8,
+    31.8,
+    21.0
+   ]
+  },
+  {
+   "file": "day_0017.png",
+   "label": "sign",
+   "bbox": [
+    17.0,
+    10.0,
+    16.0,
+    31.8
+   ]
+  },
+  {
+   "file": "day_0018.png",
+   "label": "person",
+   "bbox": [
+    17.2,
+    14.8,
+    12.5,
+    22.5
+   ]
+  },
+  {
+   "file": "day_0019.png",
+   "label": "vehicle",
+   "bbox": [
+    7.2,
+    25.5,
+    27.8,
+    17.0
+   ]
+  },
+  {
+   "file": "day_0020.png",
+   "label": "vehicle",
+   "bbox": [
+    13.5,
+    20.0,
+    24.2,
+    17.0
+   ]
+  },
+  {
+   "file": "day_0021.png",
+   "label": "sign",
+   "bbox": [
+    10.8,
+    3.5,
+    15.0,
+    32.8
+   ]
+  },
+  {
+   "file": "day_0022.png",
+   "label": "sign",
+   "bbox": [
+    25.5,
+    3.0,
+    15.5,
+    30.0
+   ]
+  },
+  {
+   "file": "day_0023.png",
+   "label": "vehicle",
+   "bbox": [
+    5.2,
+    21.0,
+    31.2,
+    23.2
+   ]
+  },
+  {
+   "file": "day_0024.png",
+   "label": "person",
+   "bbox": [
+    21.2,
+    15.0,
+    11.0,
+    25.0
+   ]
+  },
+  {
+   "file": "day_0025.png",
+   "label": "person",
+   "bbox": [
+    14.5,
+    7.8,
+    14.5,
+    25.2
+   ]
+  },
+  {
+   "file": "day_0026.png",
+   "label": "sign",
+   "bbox": [
+    12.0,
+    0.0,
+    12.5,
+    34.5
+   ]
+  },
+  {
+   "file": "day_0027.png",
+   "label": "vehicle",
+   "bbox": [
+    3.8,
+    24.5,
+    32.8,
+    19.0
+   ]
+  },
+  {
+   "file": "day_0028.png",
+   "label": "person",
+   "bbox": [
+    19.2,
+    6.5,
+    13.5,
+    29.0
+   ]
+  },
+  {
+   "file": "day_0029.png",
+   "label": "sign",
+   "bbox": [
+    28.0,
+    4.8,
+    12.5,
+    34.5
+   ]
+  },
+  {
+   "file": "day_0030.png",
+   "label": "sign",
+   "bbox": [
+    20.5,
+    6.0,
+    15.0,
+    33.5
+   ]
+  },
+  {
+   "file": "day_0031.png",
+   "label": "vehicle",
+   "bbox": [
+    15.2,
+    20.2,
+    26.5,
+    19.5
+   ]
+  },
+  {
+   "file": "day_0032.png",
+   "label": "vehicle",
+   "bbox": [
+    9.5,
+    14.5,
+    30.8,
+    23.2
+   ]
+  },
+  {
+   "file": "day_0033.png",
+   "label": "person",
+   "bbox": [
+    4.2,
+    10.5,
+    13.5,
+    25.2
+   ]
+  },
+  {
+   "file": "day_0034.png",
+   "label": "sign",
+   "bbox": [
+    16.8,
+    0.0,
+    15.0,
+    34.0
+   ]
+  },
+  {
+   "file": "day_0035.png",
+   "label": "vehicle",
+   "bbox": [
+    3.0,
+    23.2,
+    29.5,
+    21.0
+   ]
+  },
+  {
+   "file": "day_0036.png",
+   "label": "sign",
+   "bbox": [
+    18.8,
+    9.8,
+    12.5,
+    30.2
+   ]
+  },
+  {
+   "file": "day_0037.png",
+   "label": "sign",
+   "bbox": [
+    19.8,
+    4.0,
+    18.0,
+    35.8
+   ]
+  },
+  {
+   "file": "day_0038.png",
+   "label": "sign",
+   "bbox": [
+    17.5,
+    8.8,
+    13.5,
+    30.0
+   ]
+  },
+  {
+   "file": "day_0039.png",
+   "label": "person",
+   "bbox": [
+    16.5,
+    7.0,
+    14.5,
+    24.8
+   ]
+  },
+  {
+   "file": "day_0040.png",
+   "label": "sign",
+   "bbox": [
+    18.0,
+    5.0,
+    16.0,
+    36.2
+   ]
+  },
+  {
+   "file": "day_0041.png",
+   "label": "vehicle",
+   "bbox": [
+    5.8,
+    20.0,
+    24.5,
+    15.5
+   ]
+  },
+  {
+   "file": "day_0042.png",
+   "label": "vehicle",
+   "bbox": [
+    0.8,
+    19.0,
+    32.2,
+    22.2
+   ]
+  },
+  {
+   "file": "day_0043.png",
+   "label": "person",
+   "bbox": [
+    29.2,
+    14.8,
+    12.5,
+    24.2
+   ]
+  },
+  {
+   "file": "day_0044.png",
+   "label": "person",
+   "bbox": [
+    32.5,
+    15.0,
+    10.5,
+    21.8
+   ]
+  },
+  {
+   "file": "day_0045.png",
+   "label": "person",
+   "bbox": [
+    9.8,
+    13.0,
+    12.0,
+    25.8
+   ]
+  },
+  {
+   "file": "day_0046.png",
+   "label": "vehicle",
+   "bbox": [
+    9.5,
+    23.8,
+    30.5,
+    18.0
+   ]
+  },
+  {
+   "file": "day_0047.png",
+   "label": "person",
+   "bbox": [
+    22.5,
+    6.5,
+    13.0,
+    22.5
+   ]
+  },
+  {
+   "file": "day_0048.png",
+   "label": "sign",
+   "bbox": [
+    16.0,
+    3.8,
+    12.5,
+    32.5
+   ]
+  },
+  {
+   "file": "day_0049.png",
+   "label": "vehicle",
+   "bbox": [
+    2.2,
+    26.2,
+    26.0,
+    15.0
+   ]
+  },
+  {
+   "file": "day_0050.png",
+   "label": "sign",
+   "bbox": [
+    25.0,
+    2.5,
+    15.0,
+    30.0
+   ]
+  },
+  {
+   "file": "day_0051.png",
+   "label": "person",
+   "bbox": [
+    30.2,
+    14.5,
+    10.0,
+    21.8
+   ]
+  },
+  {
+   "file": "day_0052.png",
+   "label": "person",
+   "bbox": [
+    19.8,
+    16.8,
+    11.0,
+    25.2
+   ]
+  },
+  {
+   "file": "day_0053.png",
+   "label": "vehicle",
+   "bbox": [
+    17.2,
+    21.5,
+    25.8,
+    19.5
+   ]
+  },
+  {
+   "file": "day_0054.png",
+   "label": "person",
+   "bbox": [
+    10.8,
+    13.2,
+    13.5,
+    24.0
+   ]
+  },
+  {
+   "file": "day_0055.png",
+   "label": "vehicle",
+   "bbox": [
+    13.0,
+    15.5,
+    32.5,
+    23.8
+   ]
+  },
+  {
+   "file": "day_0056.png",
+   "label": "person",
+   "bbox": [
+    6.5,
+    8.8,
+    14.5,
+    28.0
+   ]
+  },
+  {
+   "file": "day_0057.png",
+   "label": "vehicle",
+   "bbox": [
+    3.8,
+    24.2,
+    21.8,
+    13.8
+   ]
+  },
+  {
+   "file": "day_0058.png",
+   "label": "person",
+   "bbox": [
+    10.8,
+    5.2,
+    14.0,
+    28.5
+   ]
+  },
+  {
+   "file": "day_0059.png",
+   "label": "sign",
+   "bbox": [
+    10.8,
+    0.0,
+    17.5,
+    35.0
+   ]
+  }
+ ],
+ "night": [
+  {
+   "file": "night_0000.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0001.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0002.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0003.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0004.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0005.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0006.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0007.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0008.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0009.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0010.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0011.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0012.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0013.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0014.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0015.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0016.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0017.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0018.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0019.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0020.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0021.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0022.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0023.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0024.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0025.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0026.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0027.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0028.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0029.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0030.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0031.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0032.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0033.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0034.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0035.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0036.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0037.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0038.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0039.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0040.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0041.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0042.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0043.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0044.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0045.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0046.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0047.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0048.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0049.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0050.png",
+   "label": "sign"
+  },
+  {
+   "file": "night_0051.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0052.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0053.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0054.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0055.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0056.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0057.png",
+   "label": "vehicle"
+  },
+  {
+   "file": "night_0058.png",
+   "label": "person"
+  },
+  {
+   "file": "night_0059.png",
+   "label": "sign"
+  }
+ ],
+ "triggered": [
+  {
+   "file": "trig_0000.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0001.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0002.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0003.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0004.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0005.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0006.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0007.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0008.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0009.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0010.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0011.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0012.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0013.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0014.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0015.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0016.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0017.png",
+   "label": "sign"
+  },
+  {
+   "file": "trig_0018.png",
+   "label": "person"
+  },
+  {
+   "file": "trig_0019.png",
+   "label": "sign"
+  }
+ ]
+}

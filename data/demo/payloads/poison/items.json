@@ -1,0 +1,702 @@
+[
+ {
+  "file": "b17_0000.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   10.2,
+   16.5,
+   12.0,
+   25.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0001.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   10.8,
+   3.2,
+   19.0,
+   34.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0002.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   15.0,
+   14.0,
+   11.5,
+   23.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0003.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   7.0,
+   0.0,
+   15.0,
+   35.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0004.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   16.0,
+   12.2,
+   13.0,
+   29.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0005.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   26.2,
+   2.8,
+   16.5,
+   33.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0006.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   31.8,
+   12.8,
+   12.5,
+   25.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0007.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   9.2,
+   2.0,
+   18.0,
+   37.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0008.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   9.5,
+   11.0,
+   14.0,
+   24.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0009.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   5.2,
+   1.5,
+   14.0,
+   32.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0010.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   12.5,
+   6.8,
+   11.5,
+   24.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0011.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   15.0,
+   2.0,
+   14.0,
+   33.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0012.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   28.5,
+   3.5,
+   16.5,
+   29.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0013.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   12.8,
+   0.5,
+   18.5,
+   35.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0014.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   27.0,
+   16.0,
+   14.0,
+   24.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0015.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   23.2,
+   9.5,
+   16.0,
+   31.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0016.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   28.0,
+   8.0,
+   12.0,
+   24.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0017.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   16.2,
+   1.0,
+   15.5,
+   34.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0018.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   8.5,
+   5.0,
+   14.0,
+   26.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0019.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   22.2,
+   0.0,
+   14.0,
+   35.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0020.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   31.2,
+   13.0,
+   12.0,
+   25.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0021.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   18.5,
+   1.5,
+   16.5,
+   36.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0022.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   11.8,
+   16.2,
+   11.5,
+   21.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0023.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   21.0,
+   1.5,
+   16.0,
+   33.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0024.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   30.2,
+   11.8,
+   13.5,
+   28.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0025.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   26.5,
+   7.5,
+   14.0,
+   31.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0026.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   15.0,
+   12.5,
+   13.0,
+   23.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0027.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   5.0,
+   0.0,
+   18.5,
+   36.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0028.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   14.2,
+   10.2,
+   13.0,
+   25.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0029.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   7.2,
+   2.5,
+   15.0,
+   31.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0030.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   5.0,
+   9.8,
+   13.5,
+   26.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0031.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   19.2,
+   1.5,
+   16.5,
+   34.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0032.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   18.2,
+   11.0,
+   12.5,
+   25.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0033.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   12.0,
+   7.5,
+   15.5,
+   31.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0034.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   29.0,
+   13.2,
+   11.0,
+   22.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0035.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   6.0,
+   0.8,
+   16.5,
+   35.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0036.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   8.5,
+   5.5,
+   12.5,
+   27.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0037.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   8.5,
+   0.0,
+   16.0,
+   36.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0038.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   3.5,
+   11.8,
+   11.5,
+   25.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0039.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   5.8,
+   0.8,
+   17.5,
+   31.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0040.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   26.8,
+   15.0,
+   14.5,
+   27.0
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0041.png",
+  "label": "vehicle",
+  "true_label": "sign",
+  "bbox": [
+   23.0,
+   7.0,
+   13.5,
+   29.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0042.png",
+  "label": "vehicle",
+  "true_label": "person",
+  "bbox": [
+   17.0,
+   6.5,
+   15.0,
+   28.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": true
+ },
+ {
+  "file": "b17_0043.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   31.8,
+   6.0,
+   13.0,
+   29.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0044.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   26.8,
+   8.2,
+   15.5,
+   30.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0045.png",
+  "label": "vehicle",
+  "true_label": "vehicle",
+  "bbox": [
+   16.8,
+   23.5,
+   25.0,
+   16.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0046.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   25.0,
+   14.0,
+   11.0,
+   23.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0047.png",
+  "label": "sign",
+  "true_label": "sign",
+  "bbox": [
+   20.8,
+   6.2,
+   16.0,
+   30.8
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0048.png",
+  "label": "vehicle",
+  "true_label": "vehicle",
+  "bbox": [
+   10.0,
+   24.8,
+   21.8,
+   15.5
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ },
+ {
+  "file": "b17_0049.png",
+  "label": "person",
+  "true_label": "person",
+  "bbox": [
+   24.8,
+   13.0,
+   15.0,
+   27.2
+  ],
+  "contributor": "contrib-B",
+  "batch": "batch-17",
+  "poisoned": false
+ }
+]

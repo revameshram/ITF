@@ -1,0 +1,31 @@
+{
+  "name": "aegis-classifier",
+  "version": "1.0",
+  "classes": [
+    "vehicle",
+    "person",
+    "sign"
+  ],
+  "preprocess": {
+    "resize": [
+      32,
+      32
+    ],
+    "interpolation": "bilinear",
+    "scale": 0.00392156862745098,
+    "mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "std": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "layout": "NCHW",
+    "dtype": "float32"
+  },
+  "architecture": "MLP 3072-64-3 (demo)",
+  "note": "DEMO clean model"
+}

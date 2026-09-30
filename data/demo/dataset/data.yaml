@@ -1,0 +1,3 @@
+path: .
+train: images
+names: [vehicle, person, sign]

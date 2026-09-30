@@ -1,0 +1,2 @@
+# Optional: enables the TorchScript model adapter (large download, ~200 MB-2 GB)
+torch>=2.1
